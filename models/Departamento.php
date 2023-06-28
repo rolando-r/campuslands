@@ -1,35 +1,29 @@
 <?php 
     namespace Models;
-    class Camper{
+    class Departamento{
         protected static $conn;
-        protected static $columnsTbl=['idCamper','nombreCamper','apellidoCamper','fechaNac','idReg'];
-        private $idCamper;
-        private $nombreCamper;
-        private $apellidoCamper;
-        private $fechaNac;
-        private $idReg;
+        protected static $columnsTbl=['idDep','nombreDep','idPais'];
+        private $idDep;
+        private $nombreDep;
+        private $idPais;
         public function __construct($args=[]){
-            $this->idCamper = $args['idCamper'] ?? '';
-            $this->nombreCamper = $args['nombreCamper'] ?? '';
-            $this->apellidoCamper = $args['apellidoCamper'] ?? '';
-            $this->fechaNac = $args['fechaNac'] ?? '';
-            $this->idReg = $args['idReg'] ?? '';
+            $this->idDep = $args['idDep'] ?? '';
+            $this->nombreDep = $args['nombreDep'] ?? '';
+            $this->idPais = $args['idPais'] ?? '';
         }
         public function saveData($data){
             $delimiter = ":";
             $dataBd = $this->sanitizarAttributos();
             $valCols = $delimiter . join(',:',array_keys($data));
             $cols = join(',',array_keys($data));
-            $sql = "INSERT INTO campers ($cols) VALUES ($valCols)";
+            $sql = "INSERT INTO departamento ($cols) VALUES ($valCols)";
             $stmt= self::$conn->prepare($sql);
             try {
                 $stmt->execute($data);
                 $response=[[
-                    'idCamper' => self::$conn->lastInsertId(),
-                    'nombreCamper' => $data['nombreCamper'],
-                    'apellidoCamper' => $data['apellidoCamper'],
-                    'fechaNac' => $data['fechaNac'],
-                    'idReg' => $data['idReg']
+                    'idDep' => self::$conn->lastInsertId(),
+                    'nombreDep' => $data['nombreDep'],
+                    'idPais' => $data['idPais']
                 ]];
             }catch(\PDOException $e) {
                 return $sql . "<br>" . $e->getMessage();
@@ -37,7 +31,7 @@
             return json_encode($response);
         }
         public function loadAllData(){
-            $sql = "SELECT idCamper,nombreCamper,apellidoCamper,fechaNac,idReg FROM campers";
+            $sql = "SELECT idDep,nombreDep,idPais FROM departamento";
             $stmt= self::$conn->prepare($sql);
             $stmt->execute();
             $countries = $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -50,7 +44,7 @@
         public function atributos(){
             $atributos = [];
             foreach (self::$columnsTbl as $columna){
-                if($columna === 'idCamper') continue;
+                if($columna === 'idDep') continue;
                 $atributos [$columna]=$this->$columna;
              }
              return $atributos;
