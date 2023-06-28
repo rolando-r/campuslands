@@ -12,20 +12,20 @@ function setIdRegion($id)
 ?>
 <script src="js/Bootstrap/bootstrap.min.js"></script>
 <section>
-    <h1>Listado de Paises</h1>
+    <h1>Listado de Regiones</h1>
     <div class="container">
-        <table id="misPaises" class="display dataTable">
+        <table id="misRegiones" class="display dataTable">
             <thead>
                 <tr>
-                    <th class="sorting_disabled" rowspan="1" colspan="1">Id pais</th>
-                    <th class="sorting_disabled" rowspan="1" colspan="1">Nombre del pais</th>
+                    <th class="sorting_disabled" rowspan="1" colspan="1">Id Region</th>
+                    <th class="sorting_disabled" rowspan="1" colspan="1">Nombre de la region</th>
                     <th rowspan="1" colspan="1"></th>
             </thead>
             <tbody>
-                <?php foreach ($objCountry->loadAllData() as $pais) : ?>
+                <?php foreach ($objCountry->loadAllData() as $region) : ?>
                     <tr>
-                        <td><?php echo $pais['id_country']; ?></td>
-                        <td><?php echo $pais['name_country']; ?></td>
+                        <td><?php echo $region['idReg']; ?></td>
+                        <td><?php echo $region['nameReg']; ?></td>
                         <td>
                             <button type="button" class="btn btn-danger btn-abrir-modal">-</button>
                             <button type="button" class="btn btn-primary btn-editar-modal">E</button>
@@ -70,7 +70,7 @@ function setIdRegion($id)
                 <div class="card">
                     <h5 class="card-header">Confirmacion de eliminacion</h5>
                     <div class="card-body">
-                        <h3>Edicion de paises</h3>
+                        <h3>Edicion de Regiones</h3>
                         <form id="frmUpdateData">
                             <input id="id_country" name="id_country" type="hidden" value="0">
                             Nombre del Pais <h6><span class="badge bg-primary"></span></h6>
@@ -93,10 +93,10 @@ function setIdRegion($id)
     let idCountryBorrar;
     $('#miTabla').DataTable().destroy();
     $(document).ready(function() {
-        var tabla = $('#misPaises').DataTable();
+        var tabla = $('#misRegiones').DataTable();
 
         // Evento click en los botones dentro de la tabla
-        $('#misPaises tbody').on('click', '.btn-abrir-modal', function() {
+        $('#misRegiones tbody').on('click', '.btn-abrir-modal', function() {
             row = tabla.row($(this).parents('tr'));
             var fila = tabla.row($(this).closest('tr')).data();
             idCountryBorrar = fila[0]; // Obtener el valor de la columna 'Nombre'
@@ -104,7 +104,7 @@ function setIdRegion($id)
             // Abrir el modal y mostrar el nombre del usuario
             abrirModal(fila[0], fila[1]);
         });
-        $('#misPaises tbody').on('click', '.btn-editar-modal', function() {
+        $('#misRegiones tbody').on('click', '.btn-editar-modal', function() {
             const frm = document.querySelector('#frmUpdateData');
             const inputsData = new FormData(frm);
             row = tabla.row($(this).parents('tr'));
@@ -144,7 +144,7 @@ function setIdRegion($id)
             });
 
     }
-    $('#misPaises').DataTable({
+    $('#misRegiones').DataTable({
 
         pageLength: 4,
         lengthMenu: [1, 3, 5, 10, 15, 25, 50, 100],
